@@ -1,0 +1,72 @@
+echo -e "Собаки\nКошки\nХомяки" > Домашние_животные.txt
+
+echo -e "Лошади\nВерблюды\nОсли" > Вьючные_животные.txt
+
+cat Домашние_животные.txt Вьючные_животные.txt > Все_животные.txt
+
+cat Все_животные.txt
+
+mv Все_животные.txt Друзья_человека.txt
+
+mkdir Животные
+
+mv Друзья_человека.txt Животные/
+
+sudo apt-get update
+sudo apt-get install software-properties-common
+sudo add-apt-repository 'deb http://repo.mysql.com/apt/ubuntu/ focal mysql-8.0'
+
+sudo apt-get update
+sudo apt-get install mysql-server
+
+sudo dpkg -i example-package.deb
+
+sudo dpkg -r example-package
+
+CREATE DATABASE FriendsOfHumans;
+USE FriendsOfHumans;
+
+CREATE TABLE DomesticAnimals (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    command VARCHAR(255),
+    birth_date DATE
+);
+
+CREATE TABLE PackAnimals (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    command VARCHAR(255),
+    birth_date DATE
+);
+
+INSERT INTO DomesticAnimals (name, command, birth_date) VALUES
+('Barsik', 'Sit', '2020-01-10'),
+('Sharik', 'Lie down', '2019-05-20');
+
+INSERT INTO PackAnimals (name, command, birth_date) VALUES
+('Marusya', 'Walk', '2021-04-15'),
+('Camel', 'Stand', '2022-03-12');
+
+DELETE FROM PackAnimals WHERE name = 'Camel';
+
+CREATE TABLE HorsesAndDonkeys AS
+SELECT * FROM PackAnimals WHERE name != 'Camel';
+
+CREATE TABLE YoungAnimals AS
+SELECT *, TIMESTAMPDIFF(MONTH, birth_date, CURDATE()) AS age_in_months
+FROM (
+    SELECT * FROM DomesticAnimals
+    UNION ALL
+    SELECT * FROM PackAnimals
+) AS AllAnimalData
+WHERE TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) BETWEEN 1 AND 3;
+
+CREATE TABLE AllAnimals AS
+SELECT *, 'Domestic' AS category FROM DomesticAnimals
+UNION ALL
+SELECT *, 'Pack' AS category FROM PackAnimals;
+
+
+
+
